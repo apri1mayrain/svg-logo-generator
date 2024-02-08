@@ -13,6 +13,11 @@
 // WHEN I open the `logo.svg` file in a browser
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
 // ------------------------------------------------------------------------------------------------
+// Import script to generate logo
+const generateLogo = require('./lib/shapes.js');
+
+// File system built-in module
+const fs = require('fs');
 
 // Import Inquirer to collect input from the user
 const inquirer = require('inquirer');
@@ -34,11 +39,11 @@ const questions = [
             return text.toUpperCase();
         }
     },
-    // Logo color (Uses hex color code)
+    // Logo text color (Uses hex color code)
     {
-        name: 'color',
+        name: 'textColor',
         type: 'input',
-        message: 'Please enter a hex color code for the logo (e.g. #febe98): ',
+        message: 'Please enter a hex color code for the text (e.g. #febe98): ',
         validate(color) {
                 // Test input matches hex color code:
                 //  1. Starts with #
@@ -56,14 +61,43 @@ const questions = [
         type: 'list',
         message: 'Please select the logo shape: ',
         choices: ['Triangle', 'Circle', 'Square'],
+    },
+    // Logo shape color (Uses hex color code)
+    {
+        name: 'shapeColor',
+        type: 'input',
+        message: 'Please enter a hex color code for the shape (e.g. #febe98): ',
+        validate(color) {
+                // Test input matches hex color code:
+                //  1. Starts with #
+                //  2. After #, there should be 6 characters containing: letters A-F, a-f, and/or digits 0-9
+                const pattern = new RegExp("^#[A-Fa-f0-9]{6}$");
+                if (pattern.test(color) === false) {
+                    return 'Invalid hex color code. Please try again.';
+                }
+                return true;
+        }
     }
 ];
 
+// Create function to write file
+function writeToFile(fileName, answers) {
+    fs.writeFile(fileName, answers, error => {
+        if (error) {
+        console.error(`There was an error creating the ${fileName} file: ${error.message}`);
+        return;
+        }
+        console.log(`Generated ${fileName}!`);
+        return;
+    });
+}
+
 // Create function to initalize app
 function init() {
-    inquirer.prompt(questions).then((answers) => {
-        console.log(answers);
-    });
+    inquirer
+        .prompt(questions)
+        .then((answers) => writeToFile('logo.svg', JSON.stringify(answers)));
+        // .then((answers) => writeToFile("logo.svg", generateLogo(answers)));
 }
 
 // Function call to initalize app
