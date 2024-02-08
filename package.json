@@ -1,0 +1,21 @@
+{
+  "name": "make-svg-logo",
+  "version": "1.0.0",
+  "description": "Generate a SVG logo",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "apri1mayrain",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^8.2.4"
+  },
+  "devDependencies": {
+    "jest": "29.7.0"
+  }
+}
