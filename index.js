@@ -13,6 +13,7 @@
 // WHEN I open the `logo.svg` file in a browser
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
 // ------------------------------------------------------------------------------------------------
+// Variable declarations...
 // Import script to generate logo
 const generateLogo = require('./lib/shapes.js');
 
@@ -21,6 +22,150 @@ const fs = require('fs');
 
 // Import Inquirer to collect input from the user
 const inquirer = require('inquirer');
+
+// Create array of all 140 HTML color keywords
+const colorKeywords = [
+    'aliceblue',
+    'antiquewhite',
+    'aqua',
+    'aquamarine',
+    'azure',
+    'beige',
+    'bisque',
+    'black',
+    'blanchedalmond',
+    'blue',
+    'blueviolet',
+    'brown',
+    'burlywood',
+    'cadetblue',
+    'chartreuse',
+    'chocolate',
+    'coral',
+    'cornflowerblue',
+    'cornsilk',
+    'crimson',
+    'cyan',
+    'darkblue',
+    'darkcyan',
+    'darkgoldenrod',
+    'darkgray',
+    'darkgreen',
+    'darkkhaki',
+    'darkmagenta',
+    'darkolivegreen',
+    'darkorange',
+    'darkorchid',
+    'darkred',
+    'darksalmon',
+    'darkseagreen',
+    'darkslateblue',
+    'darkslategray',
+    'darkturquoise',
+    'darkviolet',
+    'deeppink',
+    'deepskyblue',
+    'dimgray',
+    'dodgerblue',
+    'firebrick',
+    'floralwhite',
+    'forestgreen',
+    'fuchsia',
+    'gainsboro',
+    'ghostwhite',
+    'gold',
+    'goldenrod',
+    'gray',
+    'green',
+    'greenyellow',
+    'honeydew',
+    'hotpink',
+    'indianred',
+    'indigo',
+    'ivory',
+    'khaki',
+    'lavender',
+    'lavenderblush',
+    'lawngreen',
+    'lemonchiffon',
+    'lightblue',
+    'lightcoral',
+    'lightcyan',
+    'lightgoldenrodyellow',
+    'lightgray',
+    'lightgreen',
+    'lightpink',
+    'lightsalmon',
+    'lightseagreen',
+    'lightskyblue',
+    'lightslategray',
+    'lightsteelblue',
+    'lightyellow',
+    'lime',
+    'limegreen',
+    'linen',
+    'maroon',
+    'mediumaquamarine',
+    'mediumblue',
+    'mediumorchid',
+    'mediumpurple',
+    'mediumseagreen',
+    'mediumslateblue',
+    'mediumspringgreen',
+    'mediumturquoise',
+    'mediumvioletred',
+    'midnightblue',
+    'mintcream',
+    'mistyrose',
+    'moccasin',
+    'navajowhite',
+    'navy',
+    'oldlace',
+    'olive',
+    'olivedrab',
+    'orange',
+    'orangered',
+    'orchid',
+    'palegoldenrod',
+    'palegreen',
+    'paleturquoise',
+    'palevioletred',
+    'papayawhip',
+    'peachpuff',
+    'peru',
+    'pink',
+    'plum',
+    'powderblue',
+    'purple',
+    'red',
+    'rosybrown',
+    'royalblue',
+    'saddlebrown',
+    'salmon',
+    'sandybrown',
+    'seagreen',
+    'seashell',
+    'sienna',
+    'silver',
+    'skyblue',
+    'slateblue',
+    'slategray',
+    'snow',
+    'springgreen',
+    'steelblue',
+    'tan',
+    'teal',
+    'thistle',
+    'tomato',
+    'turquoise',
+    'violet',
+    'wheat',
+    'wheat',
+    'white',
+    'whitesmoke',
+    'yellow',
+    'yellowgreen'
+];
 
 // Create array of questions for user input
 const questions = [
@@ -35,25 +180,15 @@ const questions = [
                 }
                 return true;
             },
-        filter(text) {
-            return text.toUpperCase();
-        }
+        filter: (text) => text.toUpperCase(),
     },
-    // Logo text color (Uses hex color code)
+    // Logo text color (Can be hex color code OR color keyword)
     {
         name: 'textColor',
         type: 'input',
-        message: 'Please enter a hex color code for the text (e.g. #febe98): ',
-        validate(color) {
-                // Test input matches hex color code:
-                //  1. Starts with #
-                //  2. After #, there should be 6 characters containing: letters A-F, a-f, and/or digits 0-9
-                const pattern = new RegExp("^#[A-Fa-f0-9]{6}$");
-                if (pattern.test(color) === false) {
-                    return 'Invalid hex color code. Please try again.';
-                }
-                return true;
-        }
+        message: 'Please enter a color keyword or hex color code for the text (e.g. royalblue or #febe98): ',
+        filter: (color) => color.toLowerCase(),
+        validate: (color) => validateColor(color), 
     },
     // Logo shape (Triangle, Circle, or Square)
     {
@@ -62,23 +197,43 @@ const questions = [
         message: 'Please select the logo shape: ',
         choices: ['Triangle', 'Circle', 'Square'],
     },
-    // Logo shape color (Uses hex color code)
+    // Logo shape color (Can be hex color code OR color keyword)
     {
         name: 'shapeColor',
         type: 'input',
-        message: 'Please enter a hex color code for the shape (e.g. #febe98): ',
-        validate(color) {
-                // Test input matches hex color code:
-                //  1. Starts with #
-                //  2. After #, there should be 6 characters containing: letters A-F, a-f, and/or digits 0-9
-                const pattern = new RegExp("^#[A-Fa-f0-9]{6}$");
-                if (pattern.test(color) === false) {
-                    return 'Invalid hex color code. Please try again.';
-                }
-                return true;
-        }
+        message: 'Please enter a color keyword or hex color code for the shape (e.g. royalblue or #febe98): ',
+        filter: (color) => color.toLowerCase(),
+        validate: (color) => validateColor(color),
     }
 ];
+
+// Functions...
+// Create function to initalize app
+function init() {
+    inquirer
+        .prompt(questions)
+        .then((answers) => writeToFile('logo.svg', JSON.stringify(answers)));
+        // .then((answers) => writeToFile("logo.svg", generateLogo(answers)));
+}
+
+// Create function to test input matches color keyword or hex color code
+function validateColor(color) {
+    // Test input matches hex color code:
+    //  1. Starts with #
+    //  2. After #, there should be 6 characters containing: letters A-F, a-f, and/or digits 0-9
+    const pattern = new RegExp("^#[A-Fa-f0-9]{6}$");
+    if (pattern.test(color) === true) {
+        return true;
+    } else {
+        // Loop through array of color keywords for a match
+        for (const keyword of colorKeywords) {
+        if (color === keyword) {
+            return true;
+        }
+        }
+        return "Invalid color. Please try again.";
+    }
+}
 
 // Create function to write file
 function writeToFile(fileName, answers) {
@@ -90,14 +245,6 @@ function writeToFile(fileName, answers) {
         console.log(`Generated ${fileName}!`);
         return;
     });
-}
-
-// Create function to initalize app
-function init() {
-    inquirer
-        .prompt(questions)
-        .then((answers) => writeToFile('logo.svg', JSON.stringify(answers)));
-        // .then((answers) => writeToFile("logo.svg", generateLogo(answers)));
 }
 
 // Function call to initalize app
