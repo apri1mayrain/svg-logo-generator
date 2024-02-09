@@ -1,9 +1,6 @@
-// WHEN I open the `logo.svg` file in a browser
-// THEN I am shown a 300x200 pixel image that matches the criteria I entered
-// ------------------------------------------------------------------------------------------------
 // Variable declarations...
-// File system built-in module
-const fs = require('fs');
+// Import writeFile function from built-in file system module
+const { writeFile } = require('fs');
 
 // Import Inquirer to collect input from the user
 const inquirer = require('inquirer');
@@ -196,13 +193,21 @@ const questions = [
 ]
 
 // Functions...
-// Create function to initalize app
+// Create function to initalize inquirer questions and write SVG file with the answers
 function init() {
     inquirer
         .prompt(questions)
         .then((answers) => {
-            writeToFile('logo.svg', renderSVG(answers))
-    });
+            return writeToFile('logo.svg', renderSVG(answers));
+    })
+}
+
+// Create function to render SVG file content
+function renderSVG(answers) {
+    return `<svg height="200" width="300" xmlns="http://www.w3.org/2000/svg">
+    ${svgShape(answers.shape, answers.shapeColor)}
+    <text x="150" y="125" font-size="60" text-anchor="middle" fill="${answers.textColor}">${answers.text}</text>
+</svg>`;
 }
 
 // Create function to initalize matching class for selected SVG shape
@@ -227,15 +232,6 @@ function svgShape(shape, color) {
     }
 }
 
-// Create function to render output for SVG file
-function renderSVG(answers) {
-    // TODO: Shape is not rendering properly
-    return `<svg height="200" width="300" xmlns="http://www.w3.org/2000/svg">
-    ${svgShape(answers.shape, answers.shapeColor)}
-    <text x="150" y="125" font-size="60" text-anchor="middle" fill="${answers.textColor}">${answers.text}</text>
-</svg>`;
-}
-
 // Create function to test input matches color keyword or hex color code
 function validateColor(color) {
     // Test input matches hex color code:
@@ -256,15 +252,15 @@ function validateColor(color) {
 }
 
 // Create function to write file
-function writeToFile(fileName, answers) {
-    fs.writeFile(fileName, answers, error => {
+function writeToFile(fileName, data) {
+    writeFile(fileName, data, error => {
         if (error) {
         console.error(`There was an error creating the ${fileName} file: ${error.message}`);
         return;
         }
         console.log(`Generated ${fileName}!`);
-        return;
-    });
+        return fileName;
+    })
 }
 
 // Function call to initalize app
