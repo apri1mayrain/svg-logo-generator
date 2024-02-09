@@ -1,6 +1,6 @@
 {
-  "name": "make-svg-logo",
-  "version": "1.0.0",
+  "name": "svg-logo-generator",
+  "version": "1.0",
   "description": "Generate a SVG logo",
   "main": "index.js",
   "directories": {
