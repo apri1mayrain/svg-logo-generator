@@ -1,4 +1,4 @@
-# Create a SVG Logo
+# SVG Logo Generator
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://github.com/apri1mayrain/make-svg-logo/blob/main/LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-darkgreen?style=for-the-badge)](https://nodejs.org/en)
 [![Inquirer](https://img.shields.io/badge/NPM-Inquirer-yellow?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/inquirer)
@@ -11,12 +11,17 @@
 - [Installation](#installation)
 - [Demo](#demo)
 - [Screenshots](#screenshots)
+- [Tests](#tests)
 - [Credits](#credits)
 - [License](#license)
 
 ## Description
 
-This application allows you to generate a logo and save it as a [SVG](https://www.w3.org/Graphics/SVG/) file. You will be prompted to answer questions to generate the logo such as text, text color, shape, and shape color. Once all questions are answered, the SVG logo will be saved in the **logo.svg** file. To start the app, please reference the [Installation](#installation) instructions below.
+This application allows you to generate a logo and save it as a [SVG](https://www.w3.org/Graphics/SVG/) file.
+
+ You will be prompted to answer questions to generate the logo such as text, text color, shape, and shape color. Once all questions are answered, the SVG logo will be saved in the **logo.svg** file. 
+ 
+ To start the app, please reference the [Installation](#installation) instructions below.
 
 ## Features
 
@@ -29,7 +34,7 @@ This application allows you to generate a logo and save it as a [SVG](https://ww
 ## Installation
 
 1. Download [Node.js](https://nodejs.org/en).
-2. Download repo files by [cloning the repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository#cloning-a-repository) or [downloading the ZIP folder](https://github.com/apri1mayrain/make-svg-logo/archive/refs/heads/main.zip). If downloading ZIP folder, please be sure to extract the folder.
+2. Download repo files by [cloning the repo](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository#cloning-a-repository) or [downloading the ZIP folder](https://github.com/apri1mayrain/svg-logo-generator/archive/refs/heads/main.zip). If downloading ZIP folder, please be sure to extract the folder.
 3. Open your preferred command line interface.
 3. Navigate to the file directory containing the repo.
 4. Install the Inquirer and Jest NPM with command: `npm install`
@@ -39,7 +44,7 @@ This application allows you to generate a logo and save it as a [SVG](https://ww
 
 Click photo below to view demo video:
 
-[![Link to demo video](./assets/images/video.png)](GOOGLE DRIVE LINK)
+[![Link to demo video](./assets/images/video.png)](https://drive.google.com/file/d/1zQGVuEuCNf4wJRd8gNHhWG_sp_En08O0/view?usp=sharing)
 
 ## Screenshots
 
@@ -47,7 +52,7 @@ Terminal results:
 
 ![Screenshot of inquirer answers](./assets/images/answers.png)
 
-Invalid answers for text *(left)* and color *(right)*:
+Invalid answers for text and color:
 
 ![Screenshot of invalid text](./assets/images/invalid-text.png)
 ![Screenshot of invalid color](./assets/images/invalid-color.png)
@@ -62,15 +67,19 @@ Generated SVG examples:
 ![Screenshot of generated square.svg file](./examples/square.svg)
 ![Screenshot of generated triangle.svg file](./examples/triangle.svg)
 
-Terminal after running passing tests for shape classes:
+## Tests
+
+Run tests for Circle, Square, and Triangle classes with command: `npm run test`
+
+Tests are stored in **lib/shapes.test.js**.
+
+Terminal after running passing tests:
 
 ![Screenshot of all tests passed](./assets/images/passing-tests.png)
 
 Terminal after running a failed Circle class test:
 
 ![Screenshot of failing Circle class test](./assets/images/test-fail.png)
-
-
 
 ## Credits
 
@@ -82,4 +91,4 @@ Terminal after running a failed Circle class test:
 
 MIT License - Copyright © 2024 apri1mayrain
 
-[(Go back to top)](#create-a-svg-logo)
+[(Go back to top)](#svg-logo-generator)
