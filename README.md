@@ -38,7 +38,7 @@ This application allows you to generate a logo and save it as a [SVG](https://ww
 3. Open your preferred command line interface.
 3. Navigate to the file directory containing the repo.
 4. Install the Inquirer and Jest NPM with command: `npm install`
-5. Start the app to generate your logo.svg file with command: `node index.js`
+5. Start the app to generate your **logo.svg** file with command: `node index.js`
 
 ## Demo
 
@@ -57,7 +57,7 @@ Invalid answers for text and color:
 ![Screenshot of invalid text](./assets/images/invalid-text.png)
 ![Screenshot of invalid color](./assets/images/invalid-color.png)
 
-triangle.svg file content:
+**triangle.svg** file content:
 
 ![Screenshot of triangle.svg file content](./assets/images/svg-file.png)
 
