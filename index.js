@@ -212,8 +212,40 @@ const questions = [
 function init() {
     inquirer
         .prompt(questions)
-        .then((answers) => writeToFile('logo.svg', JSON.stringify(answers)));
-        // .then((answers) => writeToFile("logo.svg", generateLogo(answers)));
+        .then((answers) => {
+            writeToFile('logo.svg', renderSVG(answers))
+    });
+}
+
+// Create function to initalize matching class for selected SVG shape
+function svgShape(shape, color) {
+    let svgShape;
+    
+    switch (shape) {
+        case "Circle":
+        svgShape = new Circle();
+        svgShape.setColor(color);
+        return svgShape.render();
+
+        case "Square":
+        svgShape = new Square();
+        svgShape.setColor(color);
+        return svgShape.render();
+
+        case "Triangle":
+        svgShape = new Triangle();
+        svgShape.setColor(color);
+        return svgShape.render();
+    }
+}
+
+// Create function to render output for SVG file
+function renderSVG(answers) {
+    // TODO: Shape is not rendering properly
+    return `<svg height="200" width="300" xmlns="http://www.w3.org/2000/svg">
+    ${svgShape(answers.shape, answers.shapeColor)}
+    <text x="150" y="125" font-size="60" text-anchor="middle" fill="${answers.textColor}">${answers.text}</text>
+</svg>`;
 }
 
 // Create function to test input matches color keyword or hex color code
