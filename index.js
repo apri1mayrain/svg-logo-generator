@@ -206,14 +206,24 @@ function init() {
 }
 
 // Create function to initalize matching class for selected SVG shape
-function svgShape(shape) {
+function svgShape(shape, color) {
+    let svgShape;
+    
     switch (shape) {
         case "Circle":
-        return new Circle();
+        svgShape = new Circle();
+        svgShape.setColor(color);
+        return svgShape.render();
+
         case "Square":
-        return new Square();
+        svgShape = new Square();
+        svgShape.setColor(color);
+        return svgShape.render();
+
         case "Triangle":
-        return new Triangle();
+        svgShape = new Triangle();
+        svgShape.setColor(color);
+        return svgShape.render();
     }
 }
 
@@ -221,7 +231,7 @@ function svgShape(shape) {
 function renderSVG(answers) {
     // TODO: Shape is not rendering properly
     return `<svg height="200" width="300" xmlns="http://www.w3.org/2000/svg">
-    ${JSON.stringify(svgShape(answers.shape))}
+    ${svgShape(answers.shape, answers.shapeColor)}
     <text x="150" y="125" font-size="60" text-anchor="middle" fill="${answers.textColor}">${answers.text}</text>
 </svg>`;
 }
