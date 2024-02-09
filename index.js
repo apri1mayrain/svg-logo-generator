@@ -1,27 +1,15 @@
-// GIVEN a command-line application that accepts user input
-// WHEN I am prompted for text
-// THEN I can enter up to three characters
-// WHEN I am prompted for the text color
-// THEN I can enter a color keyword (OR a hexadecimal number)
-// WHEN I am prompted for a shape
-// THEN I am presented with a list of shapes to choose from: circle, triangle, and square
-// WHEN I am prompted for the shape's color
-// THEN I can enter a color keyword (OR a hexadecimal number)
-// WHEN I have entered input for all the prompts
-// THEN an SVG file is created named `logo.svg`
-// AND the output text "Generated logo.svg" is printed in the command line
 // WHEN I open the `logo.svg` file in a browser
 // THEN I am shown a 300x200 pixel image that matches the criteria I entered
 // ------------------------------------------------------------------------------------------------
 // Variable declarations...
-// Import script to generate logo
-const generateLogo = require('./lib/shapes.js');
-
 // File system built-in module
 const fs = require('fs');
 
 // Import Inquirer to collect input from the user
 const inquirer = require('inquirer');
+
+// Import classes from script to define shape
+const { Circle, Square, Triangle } = require('./lib/shapes.js');
 
 // Create array of all 140 HTML color keywords
 const colorKeywords = [
@@ -165,7 +153,7 @@ const colorKeywords = [
     'whitesmoke',
     'yellow',
     'yellowgreen'
-];
+]
 
 // Create array of questions for user input
 const questions = [
@@ -195,7 +183,7 @@ const questions = [
         name: 'shape',
         type: 'list',
         message: 'Please select the logo shape: ',
-        choices: ['Triangle', 'Circle', 'Square'],
+        choices: ['Circle', 'Square', 'Triangle'],
     },
     // Logo shape color (Can be hex color code OR color keyword)
     {
@@ -205,7 +193,7 @@ const questions = [
         filter: (color) => color.toLowerCase(),
         validate: (color) => validateColor(color),
     }
-];
+]
 
 // Functions...
 // Create function to initalize app
